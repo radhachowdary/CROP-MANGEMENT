@@ -1,0 +1,57 @@
+# **Agricultural Crop Management Agent**
+
+This Python script defines an **AgriculturalAgent** that optimizes crop management by monitoring **weather conditions, soil moisture levels, and pest presence** to make informed decisions about **irrigation and pesticide application**.
+
+## **Code Implementation**
+```python
+import random
+
+class AgriculturalAgent:
+    def __init__(self, soil_moisture_threshold=30, pest_threshold=5):
+        self.soil_moisture_threshold = soil_moisture_threshold  # Ideal soil moisture level
+        self.pest_threshold = pest_threshold  # Number of detected pests to trigger action
+
+    def get_weather_forecast(self):
+        """Simulates fetching weather data (0 = no rain, 1 = rain expected)"""
+        return random.choice([0, 1])  # Randomized for simulation
+
+    def get_soil_moisture(self):
+        """Simulates soil moisture sensor reading (0-100 scale)"""
+        return random.randint(10, 80)
+
+    def get_pest_count(self):
+        """Simulates pest detection using sensors"""
+        return random.randint(0, 10)
+
+    def decide_actions(self):
+        """Makes decisions based on percepts"""
+        soil_moisture = self.get_soil_moisture()
+        weather_forecast = self.get_weather_forecast()
+        pest_count = self.get_pest_count()
+
+        actions = []
+
+        # Irrigation Decision
+        if soil_moisture < self.soil_moisture_threshold and weather_forecast == 0:
+            actions.append("Irrigate crops")
+        else:
+            actions.append("Do not irrigate")
+
+        # Pest Control Decision
+        if pest_count > self.pest_threshold:
+            actions.append("Apply pesticide")
+        else:
+            actions.append("No pesticide needed")
+
+        # Monitoring Status
+        actions.append(f"Soil Moisture: {soil_moisture}%, Pest Count: {pest_count}, Rain Forecast: {'Yes' if weather_forecast else 'No'}")
+        
+        return actions
+
+# Simulating the agent's behavior
+agent = AgriculturalAgent()
+for i in range(5):  # Run for 5 cycles
+    print(f"\nCycle {i+1}:")
+    actions = agent.decide_actions()
+    for action in actions:
+        print(action)
